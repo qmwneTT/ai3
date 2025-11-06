@@ -78,10 +78,11 @@ CONTENT_BY_LABEL: dict[str, dict[str, list[str]]] = {
       "texts": ["흑인", "민머리", "희색이나 노란색 유나폼 착용"],
       "images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuXOAkMs7WphPZU2yjBNd5_dt9di1wnxbaEw&s", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6G3Eqm9tCOHgxDTA2YftjLYITlytiOpcKGshdgIThjdfu9RetqFGtb4YcYz6nTajuQck&usqp=CAU"],
        "videos": [" https://www.youtube.com/watch?v=GTJwoWHMEw0"]
-     },
+     },}
 # ======================
 # 페이지/스타일
 # ======================
+    
 st.set_page_config(page_title="Fastai 이미지 분류기", page_icon="🤖", layout="wide")
 st.markdown("""
 <style>
