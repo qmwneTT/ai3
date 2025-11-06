@@ -74,7 +74,7 @@ CONTENT_BY_LABEL: dict[str, dict[str, list[str]]] = {
     #   "images": ["https://.../jjampong1.jpg", "https://.../jjampong2.jpg"],
     #   "videos": ["https://youtu.be/XXXXXXXXXXX"]
     # },
-     "labels[0]: {
+     labels[0]: {
       "texts": ["흑인", "민머리", "희색이나 노란색 유나폼 착용import gdown
       "images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuXOAkMs7WphPZU2yjBNd5_dt9di1wnxbaEw&s", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6G3Eqm9tCOHgxDTA2YftjLYITlytiOpcKGshdgIThjdfu9RetqFGtb4YcYz6nTajuQck&usqp=CAU"],
        "videos": [" https://www.youtube.com/watch?v=GTJwoWHMEw0"]
