@@ -74,8 +74,83 @@ CONTENT_BY_LABEL: dict[str, dict[str, list[str]]] = {
     #   "images": ["https://.../jjampong1.jpg", "https://.../jjampong2.jpg"],
     #   "videos": ["https://youtu.be/XXXXXXXXXXX"]
     # },
-}
+     "labels[0]: {
+      "texts": ["흑인", "민머리", "희색이나 노란색 유나폼 착용import gdown
+      "images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuXOAkMs7WphPZU2yjBNd5_dt9di1wnxbaEw&s", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6G3Eqm9tCOHgxDTA2YftjLYITlytiOpcKGshdgIThjdfu9RetqFGtb4YcYz6nTajuQck&usqp=CAU"],
+       "videos": [" https://www.youtube.com/watch?v=GTJwoWHMEw0"]
+     },
+# ======================
+# 페이지/스타일
+# ======================
+st.set_page_config(page_title="Fastai 이미지 분류기", page_icon="🤖", layout="wide")
+st.markdown("""
+<style>
+h1 { color:#1E88E5; text-align:center; font-weight:800; letter-spacing:-0.5px; }
+.prediction-box { background:#E3F2FD; border:2px solid #1E88E5; border-radius:12px; padding:22px; text-align:center; margin:16px 0; box-shadow:0 4px 10px rgba(0,0,0,.06);}
+.prediction-box h2 { color:#0D47A1; margin:0; font-size:2.0rem; }
+.prob-card { background:#fff; border-radius:10px; padding:12px 14px; margin:10px 0; box-shadow:0 2px 6px rgba(0,0,0,.06); }
+.prob-bar-bg { background:#ECEFF1; border-radius:6px; width:100%; height:22px; overflow:hidden; }
+.prob-bar-fg { background:#4CAF50; height:100%; border-radius:6px; transition:width .5s; }
+.prob-bar-fg.highlight { background:#FF6F00; }
+.info-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:14px; }
+.card { border:1px solid #e3e6ea; border-radius:12px; padding:14px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.05); }
+.card h4 { margin:0 0 10px; font-size:1.05rem; color:#0D47A1; }
+.thumb { width:100%; height:auto; border-radius:10px; display:block; }
+.thumb-wrap { position:relative; display:block; }
+.play { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:60px; height:60px; border-radius:50%; background:rgba(0,0,0,.55); }
+.play:after{ content:''; border-style:solid; border-width:12px 0 12px 20px; border-color:transparent transparent transparent #fff; position:absolute; top:50%; left:50%; transform:translate(-40%,-50%); }
+.helper { color:#607D8B; font-size:.9rem; }
+.stFileUploader, .stCameraInput { border:2px dashed #1E88E5; border-radius:12px; padding:16px; background:#f5fafe; }
+</style>
+""", unsafe_allow_html=True)
 
+st.title("이미지 분류기 (Fastai) — 확률 막대 + 라벨별 고정 콘텐츠")
+
+# ======================
+# 세션 상태
+# ======================
+if "img_bytes" not in st.session_state:
+    st.session_state.img_bytes = None
+if "last_prediction" not in st.session_state:
+    st.session_state.last_prediction = None
+
+# ======================
+# 모델 로드
+# ======================
+FILE_ID = st.secrets.get("GDRIVE_FILE_ID", "1XvoIDnmo5CH7adgFcNL6JZTLT-hflLNO")
+MODEL_PATH = st.secrets.get("MODEL_PATH", "model.pkl")
+
+@st.cache_resource
+def load_model_from_drive(file_id: str, output_path: str):
+    if not os.path.exists(output_path):
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, output_path, quiet=False)
+    return load_learner(output_path, cpu=True)
+
+with st.spinner("🤖 모델 로드 중..."):
+    learner = load_model_from_drive(FILE_ID, MODEL_PATH)
+st.success("✅ 모델 로드 완료")
+
+labels = [str(x) for x in learner.dls.vocab]
+st.write(f"**분류 가능한 항목:** `{', '.join(labels)}`")
+st.markdown("---")
+
+# ======================
+# 라벨 이름 매핑: 여기를 채우세요!
+# 각 라벨당 최대 3개씩 표시됩니다.
+# ======================
+CONTENT_BY_LABEL: dict[str, dict[str, list[str]]] = {
+    # 예)
+    # "짬뽕": {
+    #   "texts": ["짬뽕의 특징과 유래", "국물 맛 포인트", "지역별 스타일 차이"],
+    #   "images": ["https://.../jjampong1.jpg", "https://.../jjampong2.jpg"],
+    #   "videos": ["https://youtu.be/XXXXXXXXXXX"]
+    # },
+    # "labels[0]: {
+    #   "texts": ["흑인", "민머리", "희색이나 노란색 유나폼 착용"],
+    #   "images": ["https://.../jjampong1.jpg", "https://.../jjampong2.jpg"],
+    #   "videos": ["https://youtu.be/XXXXXXXXXXX"]
+    # },
 # ======================
 # 유틸
 # ======================
