@@ -69,39 +69,7 @@ st.markdown("---")
 # ======================
 CONTENT_BY_LABEL: dict[str, dict[str, list[str]]] = {
     labels[0]: {
-       "texts": ["흑인", "민머리", "우릭부락f "img_bytes" not in st.session_state:
-    st.session_state.img_bytes = None
-if "last_prediction" not in st.session_state:
-    st.session_state.last_prediction = None
-
-# ======================
-# 모델 로드
-# ======================
-FILE_ID = st.secrets.get("GDRIVE_FILE_ID", "1XvoIDnmo5CH7adgFcNL6JZTLT-hflLNO")
-MODEL_PATH = st.secrets.get("MODEL_PATH", "model.pkl")
-
-@st.cache_resource
-def load_model_from_drive(file_id: str, output_path: str):
-    if not os.path.exists(output_path):
-        url = f"https://drive.google.com/uc?id={file_id}"
-        gdown.download(url, output_path, quiet=False)
-    return load_learner(output_path, cpu=True)
-
-with st.spinner("🤖 모델 로드 중..."):
-    learner = load_model_from_drive(FILE_ID, MODEL_PATH)
-st.success("✅ 모델 로드 완료")
-
-labels = [str(x) for x in learner.dls.vocab]
-st.write(f"**분류 가능한 항목:** `{', '.join(labels)}`")
-st.markdown("---")
-
-# ======================
-# 라벨 이름 매핑: 여기를 채우세요!
-# 각 라벨당 최대 3개씩 표시됩니다.
-# ======================
-CONTENT_BY_LABEL: dict[str, dict[str, list[str]]] = {
-    labels[0]: {
-       "texts": ["흑인", "민머리", "수"],.webp", "http
+       "texts": ["흑인", "민머리", "수"],
        "images": ["https://i.namu.wiki/i/hIj2nkjlzMJUD6Ntzao_wYMmD5AYSoSwOABuMIqU0gDlJ21BekGSCxVBvrHWwi8LPrKTx1WqIohhxQoR-MSrws://flexible.img.hani.co.kr/flexible/normal/600/400/imgdb/original/2024/0630/20240630501048.jpg"],
        "videos": ["https://www.youtube.com/watch?v=7a6gnRvQqHQ"]
      },
